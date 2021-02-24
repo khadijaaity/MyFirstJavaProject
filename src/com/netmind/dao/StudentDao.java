@@ -1,12 +1,20 @@
 package com.netmind.dao;
 
+import java.util.ArrayList;
+
 import com.netmind.model.Student;
 
 public class StudentDao {
 
+	private static ArrayList<Student> studentList = null;
+
+	static {
+		studentList = new ArrayList<Student>();
+	}
+
 	public boolean add(Student student) {
-		throw new UnsupportedOperationException(
-				"The file is not implemented yet");
+		studentList.add(student);
+		return true;
 	}
 
 }
