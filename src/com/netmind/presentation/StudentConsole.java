@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import com.netmind.business.StudentBl;
+import com.netmind.model.EnumOption;
 import com.netmind.model.Student;
 
 public class StudentConsole {
@@ -18,39 +19,35 @@ public class StudentConsole {
 		do {
 			showPrincipalMenu();
 			option = Integer.parseInt(scanner.nextLine());
+			EnumOption enumOption = EnumOption.values()[option];
 
-			switch (option) {
-			case 1:
+			switch (enumOption) {
+			case ADD_STUDENT:
 				Student student = new Student();
 				addNewStudent(student, scanner);
 				studentBl.add(student);
 				break;
-			case 2:
-				System.out.println("Older student:");
+			case OLDEST_AGE_STUDENT:
+				System.out.println("Oldest Age Student:");
 				break;
 
-			case 3:
+			case MEAN_AGE_STUDENT:
 				System.out.println("Student age average:");
 				break;
-
-			case 4:
-				System.out.println("Exit");
-				System.exit(0);
-
+			default:
 				break;
-
 			}
-		} while (option != 3);
+		} while (option != EnumOption.EXIT.ordinal());
+
 		scanner.close();
 	}
 
 	private static void showPrincipalMenu() {
 		System.out.println("Select an option");
 		System.out.println("1.Add a new student");
-		System.out.println("2. Older student");
-		System.out.println("3. Average age");
+		System.out.println("2. Oldest age student");
+		System.out.println("3. Mean age student");
 		System.out.println("4. Exit");
-
 	}
 
 	private static void addNewStudent(Student student, Scanner scanner) {
@@ -62,9 +59,6 @@ public class StudentConsole {
 		student.setSurname(scanner.nextLine());
 		System.out.println(
 				"Helo " + student.getName() + " " + student.getSurname() + "!");
-
-		System.out.println("Your Age: ");
-		// String age = scanner.nextLine();
 
 		System.out.println("Add data of birth: ");
 		try {
