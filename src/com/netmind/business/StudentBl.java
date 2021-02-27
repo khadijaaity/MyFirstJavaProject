@@ -1,26 +1,30 @@
 package com.netmind.business;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
-import java.util.Date;
 
+import com.netmind.dao.FileManagerDao;
 import com.netmind.dao.StudentDao;
 import com.netmind.model.Student;
 
 public class StudentBl {
 
-	public boolean add(Student student) {
+	public boolean add(Student student) throws IOException {
 		StudentDao studentDao = new StudentDao();
 
 		student.setAge(calculateAge(student.getDateOfBirth()));
-
-		return studentDao.add(student);
+		try {
+			FileManagerDao.createFile("student.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return studentDao.addStudentToFile(student);
 	}
 
-	private int calculateAge(Date dateOfBirth) {
-		Period edad = Period.between(dateOfBirth.toInstant()
-				.atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now());
+	private int calculateAge(LocalDate dateOfBirth) {
+		Period edad = Period.between(dateOfBirth, LocalDate.now());
 		return edad.getYears();
 	}
 }
